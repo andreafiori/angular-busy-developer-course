@@ -5,14 +5,8 @@ import { catchError } from 'rxjs/operators';
 import AppError from 'src/app/common/app-error';
 import { BadInput } from 'src/app/common/bad-input';
 import NotFoundError from 'src/app/common/not-found-error';
-
-@Injectable({
-  providedIn: 'root',
-})
 export class DataService {
-  private url: string = '';
-
-  constructor(private http: HttpClient) {}
+  constructor(private url: string, private http: HttpClient) {}
 
   getAll(): Observable<any> {
     return this.http.get(this.url).pipe(catchError(this.handleError));

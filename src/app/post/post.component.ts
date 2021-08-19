@@ -17,7 +17,7 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.service.getPosts()
+    this.service.getAll()
       .subscribe(
         response => {
           this.posts = response;
@@ -28,7 +28,7 @@ export class PostComponent implements OnInit {
     const post: any = { title: input.value };
     input.value = '';
 
-    this.service.createPost(post)
+    this.service.create(post)
       .subscribe(
         (response: any)  => {
           post.id = response.id;
@@ -45,9 +45,9 @@ export class PostComponent implements OnInit {
   }
 
   updatePost(post: HTMLInputElement) {
-    this.service.updatePost({ isRead: true })
+    this.service.update({ isRead: true })
       .subscribe(
-        response => {
+        (response: any) => {
           console.log(response);
         });
   }
