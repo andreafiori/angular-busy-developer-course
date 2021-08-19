@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-header" (click)="toggleCard()">
+        {{ title }}
+        <i class="bi" 
+        [ngClass]="{
+            'bi-chevron-up': isExpanded,
+            'bi-chevron-down': !isExpanded
+        }"></i>
+    </div>
+    <div *ngIf="isExpanded" class="card-body">
+        <ng-content></ng-content>
+    </div>
+</div>

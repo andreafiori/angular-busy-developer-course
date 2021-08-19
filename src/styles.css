@@ -1,0 +1,9 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+body {
+    padding: 20px
+}
+
+.form-control.ng-touched.ng-invalid {
+    border: 2px solid #cc0000;
+}

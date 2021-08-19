@@ -1,0 +1,63 @@
+<form #f="ngForm">
+  <div class="mb-2">
+    <label for="courseName" class="form-label">Course Name</label>
+    <input
+      required
+      minlength="5"
+      ngModel
+      name="name"
+      #name="ngModel"
+      type="text"
+      class="form-control"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="name.touched && !name.valid"
+    >
+      <div *ngIf="name.control.errors?.required">
+        Course Name is required
+      </div>
+      <div *ngIf="name.control.errors?.minlength">
+        Course Name should be minimum
+        {{ name.control.errors?.minlength.requiredLength }} characters
+      </div>
+    </div>
+  </div>
+
+  <!-- Category select with vaildation -->
+  <div class="mb-3">
+    <label class="form-check-label" for="category">Category</label>
+    <select class="form-select" required ngModel #category="ngModel" name="category" id="category">
+      <option value=""></option>
+      <option *ngFor="let method of categories" [value]="method.id">
+        {{ method.name }}
+      </option>
+    </select>
+    <div
+      class="alert alert-danger"
+      *ngIf="category.touched && !category.valid"
+    >
+      <div *ngIf="category.control.errors?.required">
+        Course Category is required
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 form-check">
+    <input
+      type="checkbox"
+      class="form-check-input"
+      id="hasGuarantee"
+      ngModel
+      name="hasGuarantee"
+    />
+    <label class="form-check-label" for="hasGuarantee">30 day money-back guarantee</label
+    >
+  </div>
+
+  <button class="btn btn-primary" [disabled]="!f.valid">Create</button>
+</form>
+
+<div class="mt-2 form-result">
+  {{ f.value | json }}
+</div>

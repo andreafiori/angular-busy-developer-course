@@ -1,0 +1,101 @@
+<form #f="ngForm" (ngSubmit)="submit(f)">
+  <div ngModelGroup="contact" #contact="ngModelGroup">
+    <!-- Input with validation -->
+    <div class="mb-2">
+      <label for="firstname" class="form-label">Firstname</label>
+      <input
+        required
+        minlength="3"
+        maxlength="10"
+        pattern="banana"
+        ngModel
+        name="firstName"
+        #firstName="ngModel"
+        type="text"
+        class="form-control"
+        (change)="log(firstName)"
+      />
+      <div
+        class="alert alert-danger"
+        *ngIf="firstName.touched && !firstName.valid"
+      >
+        <div *ngIf="firstName.control.errors?.required">
+          First Name is required
+        </div>
+        <div *ngIf="firstName.control.errors?.minlength">
+          First Name should be minimum
+          {{ firstName.control.errors?.minlength.requiredLength }} characters
+        </div>
+        <div *ngIf="firstName.control.errors?.pattern">
+          First Name does not match the pattern
+        </div>
+      </div>
+    </div>
+
+    <!-- Textarea -->
+    <div class="mb-2">
+      <label for="comment" class="form-label">Comment</label>
+      <textarea
+        ngModel
+        name="comment"
+        id="comment"
+        cols="30"
+        rows="10"
+        class="form-control"
+      ></textarea>
+    </div>
+
+    <!-- Select -->
+    <div class="mb-3">
+      <label class="form-check-label" for="contactMethod">Contact Method</label>
+      <select
+        class="form-select"
+        ngModel
+        name="contactMethod"
+        id="contactMethod"
+      >
+        <option value=""></option>
+        <option *ngFor="let method of contactMethods" [value]="method.id">
+          {{ method.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Checkbox -->
+    <div class="mb-3 form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="mailList"
+        ngModel
+        name="isSubscribed"
+      />
+      <label class="form-check-label" for="mailList"
+        >Subscribe to mailing list</label
+      >
+    </div>
+
+    <!-- Radio -->
+    <div
+      class="form-check form-check-inline"
+      *ngFor="let method of contactMethods; index as i"
+    >
+      <input
+        class="form-check-input"
+        ngModel
+        [value]="method.id"
+        type="radio"
+        [id]="'contactMethodRadio_' + i"
+        name="contactMethodRadio"
+      />
+      <label class="form-check-label" [for]="'contactMethodRadio_' + i">{{
+        method.name
+      }}</label>
+    </div>
+  </div>
+  <button class="btn btn-primary" [disabled]="!f.valid">Submit</button>
+</form>
+
+<div class="mt-2 form-result">
+  {{ f.value | json }}
+</div>
