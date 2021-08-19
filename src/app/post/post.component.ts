@@ -8,65 +8,55 @@ import NotFoundError from '../common/not-found-error';
 @Component({
   selector: 'post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  styleUrls: ['./post.component.css'],
 })
 export class PostComponent implements OnInit {
   posts: any = [];
 
-  constructor(private service: PostService) {
-  }
+  constructor(private service: PostService) {}
 
   ngOnInit(): void {
-    this.service.getAll()
-      .subscribe(
-        response => {
-          this.posts = response;
-        });
+    this.service.getAll().subscribe((posts) => (this.posts = posts));
   }
 
   createPost(input: HTMLInputElement) {
     const post: any = { title: input.value };
     input.value = '';
 
-    this.service.create(post)
-      .subscribe(
-        (response: any)  => {
-          post.id = response.id;
+    this.service.create(post).subscribe(
+      (response: any) => {
+        post.id = response.id;
 
-          this.posts.splice(0, 0, post);
-        },
-        (error: HttpErrorResponse) => {
-          if (error instanceof BadInput) {
-            console.log(error.originalError);
-          } else {
-            throw Error();
-          }
-        });
+        this.posts.splice(0, 0, post);
+      },
+      (error: HttpErrorResponse) => {
+        if (error instanceof BadInput) {
+          console.log(error.originalError);
+        } else {
+          throw Error();
+        }
+      }
+    );
   }
 
   updatePost(post: HTMLInputElement) {
-    this.service.update({ isRead: true })
-      .subscribe(
-        (response: any) => {
-          console.log(response);
-        });
+    this.service.update(post).subscribe((updatedPost: any) => {
+      console.log(updatedPost);
+    });
   }
 
   deletePost(post: HTMLInputElement) {
-    this.service.deletePost(post.id)
-    .subscribe(
-      response => {
-        console.log(response);
-
+    this.service.deletePost(post.id).subscribe(
+      () => {
         const index = this.posts.indexOf(post);
 
         this.posts.splice(index, 1);
       },
       (error: AppError) => {
         if (error instanceof NotFoundError)
-           alert('This post has already been deleted');
-        else
-          throw new Error();
-    });
+          alert('This post has already been deleted');
+        else throw new Error();
+      }
+    );
   }
 }
