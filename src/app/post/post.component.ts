@@ -23,13 +23,17 @@ export class PostComponent implements OnInit {
     const post: any = { title: input.value };
     input.value = '';
 
+    // Optimistic update UI
+    this.posts.splice(0, 0, post);
+
     this.service.create(post).subscribe(
       (response: any) => {
         post.id = response.id;
-
-        this.posts.splice(0, 0, post);
       },
       (error: HttpErrorResponse) => {
+          // Remove first post updated optimistically
+          this.posts.splice(0, 1);
+
         if (error instanceof BadInput) {
           console.log(error.originalError);
         } else {
@@ -46,13 +50,16 @@ export class PostComponent implements OnInit {
   }
 
   deletePost(post: HTMLInputElement) {
-    this.service.deletePost(post.id).subscribe(
-      () => {
-        const index = this.posts.indexOf(post);
+    // Optimistic update deleting post before server call
+    const index = this.posts.indexOf(post);
+    this.posts.splice(index, 1);
 
-        this.posts.splice(index, 1);
-      },
+    this.service.deletePost(post.id).subscribe(
+      null,
       (error: AppError) => {
+        // Re-add the post
+        this.posts.splice(index, 0, post);
+
         if (error instanceof NotFoundError)
           alert('This post has already been deleted');
         else throw new Error();
