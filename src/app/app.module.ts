@@ -22,6 +22,7 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RouterModule } from '@angular/router';
 import { GithubProfileComponent } from './github-profile/github-profile.component';
+import { ZippyContainerComponent } from './zippy-container/zippy-container.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { GithubProfileComponent } from './github-profile/github-profile.componen
     HomeComponent,
     NotFoundComponent,
     GithubProfileComponent,
+    ZippyContainerComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,13 +53,13 @@ import { GithubProfileComponent } from './github-profile/github-profile.componen
       { path: 'followers', component: GithubFollowersComponent },
       { path: 'followers/:id/:username', component: GithubProfileComponent },
       { path: 'posts', component: PostComponent },
-      { path: 'zippy', component: ZippyComponent },
+      { path: 'zippy', component: ZippyContainerComponent },
       { path: 'change-password', component: ChangePasswordFormComponent },
       { path: 'new-course', component: NewCourseFormComponent },
       { path: 'course-form', component: CourseFormComponent },
       { path: 'sign-up', component: SignupFormComponent },
       { path: 'contact-form', component: ContactFormComponent },
-      { path: 'favorite', component: FavoriteComponent },
+      // { path: 'favorite', component: FavoriteComponent },
       { path: 'like', component: LikeComponent },
       { path: '**', component: NotFoundComponent },
     ]),

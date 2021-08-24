@@ -1,3 +1,9 @@
+<h3>Sign up form</h3>
+<p>Simulation of a login form. The form can check a unique username (try to type "mosh").<br>
+All the fields are required and the username must be minimum 3 characters.<br>
+Errors will be displayed. Once the form is submitted, it creates an error that is displayed as result.
+</p>
+
 <form [formGroup]="form" (ngSubmit)="login()">
   <div class="alert alert-danger" *ngIf="form.errors">
     The username or password is invalid
